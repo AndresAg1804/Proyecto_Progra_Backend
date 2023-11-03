@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="Proyecto_Progra_Backend:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Proyecto_Progra_Backend_jar</output-path>
+    <root id="root">
+      <element id="archive" name="Proyecto_Progra_Backend.jar">
+        <element id="module-output" name="Proyecto_Progra_Backend" />
+      </element>
+      <element id="library" level="project" name="Proyecto_Progra_Protocol" />
+      <element id="library" level="project" name="mysql.connector.java" />
+    </root>
+  </artifact>
+</component>
