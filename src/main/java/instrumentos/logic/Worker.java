@@ -160,7 +160,7 @@ public class Worker {
                         break;
                     case Protocol.SEARCHC:
                         try {
-                            List<Calibraciones> list = service.searchCalibracionesByInstrumento(String.valueOf((Instrumento)os.in.readObject()));
+                            List<Calibraciones> list = service.search((Calibraciones)os.in.readObject());
                             os.out.writeInt(Protocol.ERROR_NO_ERROR);
                             os.out.writeObject(list);
                         } catch (Exception ex) {
@@ -211,31 +211,22 @@ public class Worker {
                         break;
                     case Protocol.SEARCHMBC:
                         try {
-                            List<Mediciones> list = service.searchMedicionesByCalibracion(String.valueOf((Calibraciones)os.in.readObject()));
+                            List<Mediciones> list = service.searchMedicionesByCalibracion((String)os.in.readObject());
                             os.out.writeInt(Protocol.ERROR_NO_ERROR);
                             os.out.writeObject(list);
                         } catch (Exception ex) {
                             os.out.writeInt(Protocol.ERROR_ERROR);
                         }
                         break;
-//                    case Protocol.SEARCHCBI:
-//                        try {
-//                            List<Calibraciones> list = service.searchCalibracionesByInstrumento(String.valueOf((Instrumento)os.in.readObject()));
-//                            os.out.writeInt(Protocol.ERROR_NO_ERROR);
-//                            os.out.writeObject(list);
-//                        } catch (Exception ex) {
-//                            os.out.writeInt(Protocol.ERROR_ERROR);
-//                        }
-//                        break;
-//                    case Protocol.SEARCHMBC:
-//                        try {
-//                            List<Mediciones> list = service.searchByCalibraciones((Calibraciones)os.in.readObject());
-//                            os.out.writeInt(Protocol.ERROR_NO_ERROR);
-//                            os.out.writeObject(list);
-//                        } catch (Exception ex) {
-//                            os.out.writeInt(Protocol.ERROR_ERROR);
-//                        }
-//                        break;
+                    case Protocol.SEARCHCBI:
+                        try {
+                            List<Calibraciones> list = service.searchCalibracionesByInstrumento((String)os.in.readObject());
+                            os.out.writeInt(Protocol.ERROR_NO_ERROR);
+                            os.out.writeObject(list);
+                        } catch (Exception ex) {
+                            os.out.writeInt(Protocol.ERROR_ERROR);
+                        }
+                        break;
                 }
             } catch (IOException  ex) {
                 System.out.println(ex);

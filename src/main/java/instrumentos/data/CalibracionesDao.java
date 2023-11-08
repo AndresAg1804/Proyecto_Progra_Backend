@@ -75,9 +75,10 @@ public class CalibracionesDao {
         List<Calibraciones> resultado = new ArrayList<Calibraciones>();
         String sql = "select * from " +
                 "Calibraciones i " +
-                "where i.id like ?";
+                "where i.id like ? and i.instrumento_serie=?";
         PreparedStatement stm = db.prepareStatement(sql);
         stm.setString(1, "%" + e.getNumero() + "%");
+        stm.setString(2, e.getInstrumento().getSerie());
         ResultSet rs = db.executeQuery(stm);
         while (rs.next()) {
             resultado.add(from(rs, "i"));
