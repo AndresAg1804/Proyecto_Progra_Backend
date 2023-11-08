@@ -228,6 +228,7 @@ public class Worker {
                         }
                         break;
                 }
+                os.out.flush();
             } catch (IOException  ex) {
                 System.out.println(ex);
                 continuar = false;
