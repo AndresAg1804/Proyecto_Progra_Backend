@@ -5,15 +5,19 @@ import java.util.List;
 
 public class Worker {
     Server srv;
-    ObjectSocket os;
+    ObjectSocket os; // Syncronous Socket
+    ObjectSocket as; // Asynchronous Socket
     IService service;
+
 
     public Worker(Server srv, ObjectSocket os, IService service) {
         this.srv=srv;
         this.os=os;
         this.service=service;
     }
-
+    public void setAs(ObjectSocket as) {
+        this.as = as;
+    }
     boolean continuar;    
     public void start(){
         try {
@@ -33,6 +37,16 @@ public class Worker {
         continuar=false;
         System.out.println("Conexion cerrada...");
     }
+    public void deliver(Message message){
+        if(as != null) {
+            try {
+                os.out.writeInt(Protocol.DELIVER);
+                os.out.writeObject(message);
+                os.out.flush();
+            } catch (IOException ex) {
+            }
+        }
+    }
     
     public void listen(){
         int method;
@@ -41,10 +55,18 @@ public class Worker {
                 method = os.in.readInt();
                 System.out.println("Operacion: "+method);
                 switch(method){
+                    case Protocol.DISCONNECT:
+                        try{
+                            this.stop();
+                            srv.remove(this);
+                        } catch (Exception ex) {}
+                        break;
                     case Protocol.CREATETI:
                     try {
-                        service.create((TipoInstrumento)os.in.readObject());
+                        TipoInstrumento e = (TipoInstrumento)os.in.readObject();
+                        service.create(e);
                         os.out.writeInt(Protocol.ERROR_NO_ERROR);
+                        srv.deliver(new Message(Message.CREATE, "TI", e.getNombre()));
                     } catch (Exception ex) {
                         os.out.writeInt(Protocol.ERROR_ERROR);
                     }
@@ -60,16 +82,20 @@ public class Worker {
                     break;
                     case Protocol.UPDATETI:
                         try {
-                            service.update((TipoInstrumento)os.in.readObject());
+                            TipoInstrumento e = (TipoInstrumento)os.in.readObject();
+                            service.update(e);
                             os.out.writeInt(Protocol.ERROR_NO_ERROR);
+                            srv.deliver(new Message(Message.UPDATE, "TI", e.getNombre()));
                         } catch (Exception ex) {
                             os.out.writeInt(Protocol.ERROR_ERROR);
                         }
                         break;
                     case Protocol.DELETETI:
                         try {
-                            service.delete((TipoInstrumento)os.in.readObject());
+                            TipoInstrumento e = (TipoInstrumento)os.in.readObject();
+                            service.delete(e);
                             os.out.writeInt(Protocol.ERROR_NO_ERROR);
+                            srv.deliver(new Message(Message.DELETE, "TI", e.getNombre()));
                         } catch (Exception ex) {
                             os.out.writeInt(Protocol.ERROR_ERROR);
                         }
@@ -85,8 +111,10 @@ public class Worker {
                         break;
                     case Protocol.CREATEI:
                         try {
-                            service.create((Instrumento)os.in.readObject());
+                            Instrumento e = (Instrumento)os.in.readObject();
+                            service.create(e);
                             os.out.writeInt(Protocol.ERROR_NO_ERROR);
+                            srv.deliver(new Message(Message.CREATE, "I", e.getSerie()));
                         } catch (Exception ex) {
                             os.out.writeInt(Protocol.ERROR_ERROR);
                         }
@@ -102,16 +130,20 @@ public class Worker {
                         break;
                     case Protocol.UPDATEI:
                         try {
-                            service.update((Instrumento)os.in.readObject());
+                            Instrumento e = (Instrumento)os.in.readObject();
+                            service.update(e);
                             os.out.writeInt(Protocol.ERROR_NO_ERROR);
+                            srv.deliver(new Message(Message.UPDATE, "I", e.getSerie()));
                         } catch (Exception ex) {
                             os.out.writeInt(Protocol.ERROR_ERROR);
                         }
                         break;
                     case Protocol.DELETEI:
                         try {
-                            service.delete((Instrumento)os.in.readObject());
+                            Instrumento e = (Instrumento)os.in.readObject();
+                            service.delete(e);
                             os.out.writeInt(Protocol.ERROR_NO_ERROR);
+                            srv.deliver(new Message(Message.DELETE, "I", e.getSerie()));
                         } catch (Exception ex) {
                             os.out.writeInt(Protocol.ERROR_ERROR);
                         }
@@ -127,8 +159,10 @@ public class Worker {
                         break;
                     case Protocol.CREATEC:
                         try {
-                            service.create((Calibraciones)os.in.readObject());
+                            Calibraciones e = (Calibraciones)os.in.readObject();
+                            service.create(e);
                             os.out.writeInt(Protocol.ERROR_NO_ERROR);
+                            srv.deliver(new Message(Message.CREATE, "C", e.getNumero()));
                         } catch (Exception ex) {
                             os.out.writeInt(Protocol.ERROR_ERROR);
                         }
@@ -144,16 +178,20 @@ public class Worker {
                         break;
                     case Protocol.UPDATEC:
                         try{
-                            service.update((Calibraciones)os.in.readObject());
+                            Calibraciones e = (Calibraciones)os.in.readObject();
+                            service.update(e);
                             os.out.writeInt(Protocol.ERROR_NO_ERROR);
+                            srv.deliver(new Message(Message.UPDATE, "C", e.getNumero()));
                         } catch (Exception ex) {
                             os.out.writeInt(Protocol.ERROR_ERROR);
                         }
                         break;
                     case Protocol.DELETEC:
                         try{
-                            service.delete((Calibraciones)os.in.readObject());
+                            Calibraciones e = (Calibraciones)os.in.readObject();
+                            service.delete(e);
                             os.out.writeInt(Protocol.ERROR_NO_ERROR);
+                            srv.deliver(new Message(Message.DELETE, "C", e.getNumero()));
                         } catch (Exception ex) {
                             os.out.writeInt(Protocol.ERROR_ERROR);
                         }
