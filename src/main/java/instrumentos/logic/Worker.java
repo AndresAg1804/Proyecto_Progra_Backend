@@ -40,9 +40,9 @@ public class Worker {
     public void deliver(Message message){
         if(as != null) {
             try {
-                os.out.writeInt(Protocol.DELIVER);
-                os.out.writeObject(message);
-                os.out.flush();
+                as.out.writeInt(Protocol.DELIVER);
+                as.out.writeObject(message);
+                as.out.flush();
             } catch (IOException ex) {
             }
         }
