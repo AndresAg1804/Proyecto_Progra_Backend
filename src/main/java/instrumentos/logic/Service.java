@@ -104,6 +104,10 @@ public class Service implements IService{
     }
 
     public void delete(Calibraciones e)throws Exception{
+        int cant = e.getMediciones();
+        for(int i = 0; i < cant; i++){
+            medicionesDao.delete(e.getMedicionesList().get(i));
+        }
         calibracionesDao.delete(e);
     }
 
