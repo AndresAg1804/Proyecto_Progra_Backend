@@ -152,8 +152,4 @@ public class Service implements IService{
         return cali;
     }
 
-    //================= Mensajes ============
-    public void create(Message e) throws Exception{
-        //
-    }
 }

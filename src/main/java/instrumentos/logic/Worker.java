@@ -114,7 +114,7 @@ public class Worker {
                             Instrumento e = (Instrumento)os.in.readObject();
                             service.create(e);
                             os.out.writeInt(Protocol.ERROR_NO_ERROR);
-                            srv.deliver(new Message(Message.CREATE, "I", e.getSerie()));
+                            srv.deliver(new Message(Message.CREATE, "I", e.getDescripcion()));
                         } catch (Exception ex) {
                             os.out.writeInt(Protocol.ERROR_ERROR);
                         }
@@ -133,7 +133,7 @@ public class Worker {
                             Instrumento e = (Instrumento)os.in.readObject();
                             service.update(e);
                             os.out.writeInt(Protocol.ERROR_NO_ERROR);
-                            srv.deliver(new Message(Message.UPDATE, "I", e.getSerie()));
+                            srv.deliver(new Message(Message.UPDATE, "I", e.getDescripcion()));
                         } catch (Exception ex) {
                             os.out.writeInt(Protocol.ERROR_ERROR);
                         }
@@ -143,7 +143,7 @@ public class Worker {
                             Instrumento e = (Instrumento)os.in.readObject();
                             service.delete(e);
                             os.out.writeInt(Protocol.ERROR_NO_ERROR);
-                            srv.deliver(new Message(Message.DELETE, "I", e.getSerie()));
+                            srv.deliver(new Message(Message.DELETE, "I", e.getDescripcion()));
                         } catch (Exception ex) {
                             os.out.writeInt(Protocol.ERROR_ERROR);
                         }
