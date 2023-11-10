@@ -47,7 +47,7 @@ public class InstrumentoDao {
     public void update(Instrumento e) throws Exception {
         String sql = "update " +
                 "Instrumento " +
-                "set tipo=?, descripcion=?, set minimo=?, set maximo=?, set tolerancia=?" +
+                "set tipo=?, descripcion=?, minimo=?, maximo=?, tolerancia=? " +
                 "where serie=?";
         PreparedStatement stm = db.prepareStatement(sql);
         stm.setString(1, e.getTipo().getCodigo());
