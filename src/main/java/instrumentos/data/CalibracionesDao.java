@@ -20,7 +20,6 @@ public class CalibracionesDao {
                 "(fecha, mediciones, instrumento_serie) " +
                 "values(?,?,?)";
         PreparedStatement stm = db.prepareStatement(sql);
-        //stm.setString(1, e.getNumero());
         stm.setString(1, e.getFecha());
         stm.setString(2, String.valueOf(e.getMediciones()));
         stm.setString(3, String.valueOf(e.getInstrumento().getSerie()));
@@ -109,7 +108,7 @@ public class CalibracionesDao {
         e.setNumero(rs.getString(alias + ".id"));
         e.setFecha(rs.getString(alias + ".fecha"));
         e.setMediciones(Integer.parseInt(rs.getString(alias + ".mediciones")));
-        //e.setInstrumento(ed.from(rs,"t"));
+
         return e;
     }
 

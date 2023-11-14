@@ -32,7 +32,6 @@ public class Service implements IService{
             instrumentoDao = new InstrumentoDao();
             calibracionesDao = new CalibracionesDao();
             medicionesDao = new MedicionesDao();
-            //calibra = new ArrayList<>();
         }
         catch(Exception e){
         }

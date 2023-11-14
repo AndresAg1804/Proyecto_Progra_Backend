@@ -106,7 +106,6 @@ public class MedicionesDao {
         CalibracionesDao ed = new CalibracionesDao();
         Mediciones e = new Mediciones();
         e.setMedida(rs.getString(alias + ".medida"));
-        //e.setCalibraciones(ed.from(rs,"t"));
         e.setReferencia(rs.getString(alias + ".referencia"));
         e.setLectura(Integer.parseInt(rs.getString(alias+".lectura")));
         return e;
